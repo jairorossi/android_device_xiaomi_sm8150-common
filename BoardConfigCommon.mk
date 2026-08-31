@@ -136,7 +136,7 @@ BOARD_QTI_DYNAMIC_PARTITIONS_PARTITION_LIST := $(ALL_PARTITIONS)
 ifneq ($(WITH_GMS),true)
 $(foreach p, $(call to-upper, $(SSI_PARTITIONS)), \
     $(eval BOARD_$(p)IMAGE_EXTFS_INODE_COUNT := -1))
-SSI_PARTITIONS_RESERVED_SIZE := 1258291200
+SSI_PARTITIONS_RESERVED_SIZE := 30720000  # Jairo: gapps embutido, evita overflow do super (update_dynamic_partitions)
 else
 SSI_PARTITIONS_RESERVED_SIZE := 30720000
 endif

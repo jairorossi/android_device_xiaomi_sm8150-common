@@ -74,6 +74,14 @@ class XiaomiMsmnileUdfpsHandler : public UdfpsHandler {
                 }
             }
 
+            // Writing fod_status also toggles the panel's gesture mode, which is what
+            // makes the touch controller report FOD presses while the screen is off.
+            // Keep it enabled so screen-off long-press can wake the UDFPS UI in the
+            // first place, instead of only reporting once that UI is already shown.
+            if (fodStatusFd >= 0) {
+                write(fodStatusFd, "1", 1);
+            }
+
             struct pollfd fodUiPoll = {
                     .fd = fodUiFd,
                     .events = POLLERR | POLLPRI,
@@ -90,9 +98,6 @@ class XiaomiMsmnileUdfpsHandler : public UdfpsHandler {
                 bool fodUi = readBool(fodUiFd);
 
                 mDevice->extCmd(mDevice, COMMAND_NIT, fodUi ? PARAM_NIT_FOD : PARAM_NIT_NONE);
-                if (fodStatusFd >= 0) {
-                    write(fodStatusFd, fodUi ? "1" : "0", 1);
-                }
             }
         }).detach();
     }
