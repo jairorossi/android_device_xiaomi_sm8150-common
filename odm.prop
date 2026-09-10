@@ -44,3 +44,7 @@ vendor.audio.feature.wsa.enable=false
 
 # Fwk detect
 ro.vendor.qti.va_odm.support=1
+
+# Display / Google Fotos color fix (desativar wide color gamut/HDR forcado)
+ro.surface_flinger.has_wide_color_display=false
+ro.surface_flinger.has_HDR_display=false
